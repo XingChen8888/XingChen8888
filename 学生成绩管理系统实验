@@ -1,0 +1,548 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<string.h>
+#include<Windows.h>
+#include<stdlib.h>
+struct link
+{
+	int num;
+	char name[10];
+	int c1,c2,c3,c4,c5,sum;
+	float ave;
+	struct link *next;
+};
+struct link* duqu()
+{
+	FILE *ff;
+	ff=fopen("print.txt","r");
+	struct link *head=NULL,*p,*q;
+	p=q=(struct link*)malloc(sizeof(struct link));
+	int a,b,c,d,e,f,g;
+	float h;
+	char m[10];
+	if(ff==NULL)
+		return NULL;
+	while(fscanf(ff,"%d%s%d%d%d%d%d%d%f",&a,m,&b,&c,&d,&e,&f,&g,&h)!=EOF)
+	{
+		q=(struct link*)malloc(sizeof(struct link));
+		q->num=a;
+		strcpy(q->name,m);
+		q->c1=b;
+		q->c2=c;
+		q->c3=d;
+		q->c4=e;
+		q->c5=f;
+		q->sum=g;
+		q->ave=h;
+		if(head==NULL)
+			head=q;
+		else
+			p->next=q;
+		p=q;
+	}
+	p->next=NULL;
+	fclose(ff);
+	return head;
+};
+struct link* create()
+{
+	struct link *h=NULL,*p1=NULL,*p2=NULL;
+	p1=p2=(struct link*)malloc(sizeof(struct link));
+	for(int aa=0;aa<1;aa++)
+	{
+		int m=0;
+		printf("请输入学生的学号\n");
+		scanf("%d",&m);
+		p1=(struct link*)malloc(sizeof(struct link));
+		if(m!=0)
+		{
+			p1->num=m;
+			printf("请输入学生的姓名\n");
+			scanf("%s",p1->name);
+			printf("请输入学生第一门课的成绩\n");
+			scanf("%d",&p1->c1);
+			printf("请输入学生第二门课的成绩\n");
+			scanf("%d",&p1->c2);
+			printf("请输入学生第三门课的成绩\n");
+			scanf("%d",&p1->c3);
+			printf("请输入学生第四门课的成绩\n");
+			scanf("%d",&p1->c4);
+			printf("请输入学生第五门课的成绩\n");
+			scanf("%d",&p1->c5);
+			p1->sum=p1->c1+p1->c2+p1->c3+p1->c4+p1->c5;
+			p1->ave=float(p1->sum)/5.0;
+			if(h==NULL)
+				h=p1;
+			else
+				p2->next=p1;
+			p2=p1;
+		}
+			else
+				break;
+	}
+	p2->next=NULL;
+	system("pause");
+	system("cls");
+	return (h);
+};
+void input(struct link *head)
+{
+	struct link *a,*p,*b;
+	for(a=head;a!=NULL;a=a->next)
+	{
+		if(a->next==NULL)
+		{
+			break;
+		}
+	}
+	printf("请输入学生的学号\n");
+	begin:for(int bb=0;bb<1;bb++)
+	{
+		int m,n,pp=0;
+		scanf("%d",&n);
+		for(b=head;b!=NULL;b=b->next)
+		{
+			if(b->num==n)
+			{
+				pp++;
+				printf("该学号已被占用，请输入别的学号\n");
+			}
+		}
+		if(pp==0)
+		{
+			m=n;
+			p=(struct link*)malloc(sizeof(struct link));
+			p->num=m;
+			printf("请输入学生的姓名\n");
+			scanf("%s",p->name);
+			printf("请输入学生的第一门课成绩\n");
+			scanf("%d",&p->c1);
+			printf("请输入学生的第二门课成绩\n");
+			scanf("%d",&p->c2);
+			printf("请输入学生的第三门课成绩\n");
+			scanf("%d",&p->c3);
+			printf("请输入学生的第四门课成绩\n");
+			scanf("%d",&p->c4);
+			printf("请输入学生的第五门课成绩\n");
+			scanf("%d",&p->c5);
+			p->sum=p->c1+p->c2+p->c3+p->c4+p->c5;
+			p->ave=(p->sum)/5.0;
+			a->next=p;
+			a=p;
+		}
+		else
+			goto begin;
+	}
+	a->next=NULL;
+	system("pause");
+	system("cls");
+};
+void output(struct link *head)
+{
+	struct link *a;
+	for(a=head;a!=NULL;a=a->next)
+		printf("%d %s %d %d %d %d %d %d %.2f\n",a->num,a->name,a->c1,a->c2,a->c3,a->c4,a->c5,a->sum,a->ave);
+	system("pause");
+	system("cls");
+};
+void find(struct link *head)
+{
+	int x;
+	printf("请选择您要查找的内容：\n1.学号\n2.姓名\n");
+	scanf("%d",&x);
+	struct link *p;
+	int m=0;
+	printf("请输入您要查找的内容\n");
+	switch(x)
+	{
+	case(1):
+		{
+			int b;
+			scanf("%d",&b);
+			for(p=head;p!=NULL;p=p->next)
+			{
+				if(p->num==b)
+				{
+					p->sum=p->c1+p->c2+p->c3+p->c4+p->c5;
+					p->ave=(p->sum)/5.0;
+					printf("%d %s %d %d %d %d %d %d %.2f\n",p->num,p->name,p->c1,p->c2,p->c3,p->c4,p->c5,p->sum,p->ave);
+					m++;
+				}
+			}
+			break;
+		}
+	case(2):
+		{
+			char a[10];
+			scanf("%s",a);
+			for(p=head;p!=NULL;p=p->next)
+			{
+				if(strcmp(p->name,a)==0)
+				{
+					p->sum=p->c1+p->c2+p->c3+p->c4+p->c5;
+					p->ave=(p->sum)/5.0;
+					printf("%d %s %d %d %d %d %d %d %.2f\n",p->num,p->name,p->c1,p->c2,p->c3,p->c4,p->c5,p->sum,p->ave);
+					m++;
+				}
+			}
+			break;
+		}
+	}
+	if(m==0)
+	printf("未找到所要查找内容，请输入正确的查找内容\n");
+	system("pause");
+	system("cls");
+};
+void change(struct link *head)
+{
+	struct link *a;
+	for(a=head;a!=NULL;a=a->next)
+		printf("%d %s %d %d %d %d %d %d %.2f\n",a->num,a->name,a->c1,a->c2,a->c3,a->c4,a->c5,a->sum,a->ave);
+	int x;
+	printf("请选择您要查找修改学生的方法：\n1.学号\n2.姓名\n");
+	scanf("%d",&x);
+	struct link *p;
+	switch(x)
+	{
+	case(1):
+		{
+			int b;
+			printf("请输入您要修改学生的学号\n");
+			scanf("%d",&b);
+			int m=0;
+			for(p=head;p!=NULL;p=p->next)
+			{
+				if(p->num==b)
+				{
+					m++;
+					int c;
+					printf("请选择您要修改的内容：\n1.学号\n2.姓名\n3.第一门课成绩\n4.第二门课成绩\n5.第三门课成绩\n6.第四门课成绩\n7.第五门课成绩\n");
+					scanf("%d",&c);
+					switch(c)
+					{
+					case(1):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->num=d;
+							break;
+						}
+					case(2):
+						{
+							char d[10];
+							printf("请输入修改后的内容\n");
+							scanf("%s",d);
+							strcpy(p->name,d);
+							break;
+						}
+					case(3):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c1=d;
+							break;
+						}
+					case(4):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c2=d;
+							break;
+						}
+					case(5):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c3=d;
+							break;
+						}
+					case(6):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c4=d;
+							break;
+						}
+					case(7):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c5=d;
+							break;
+						}
+					}
+					p->sum=p->c1+p->c2+p->c3+p->c4+p->c5;
+					p->ave=(p->sum)/5.0;
+					printf("%d %s %d %d %d %d %d %d %.2f\n",p->num,p->name,p->c1,p->c2,p->c3,p->c4,p->c5,p->sum,p->ave);
+				}
+			}
+			if(m==0)
+				printf("未找到您要修改的学生，请输入正确的学生信息\n");
+			break;
+		}
+	case(2):
+		{
+			char b[10];
+			printf("请输入您要修改学生的姓名\n");
+			scanf("%s",b);
+			int m=0;
+			for(p=head;p!=NULL;p=p->next)
+			{
+				if(strcmp(p->name,b)==0)
+				{
+					m++;
+					int c;
+					printf("请选择您要修改的内容：\n1.学号\n2.姓名\n3.第一门课成绩\n4.第二门课成绩\n5.第三门课成绩\n6.第四门课成绩\n7.第五门课成绩\n");
+					scanf("%d",&c);
+					switch(c)
+					{
+					case(1):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->num=d;
+							break;
+						}
+					case(2):
+						{
+							char d[10];
+							printf("请输入修改后的内容\n");
+							scanf("%s",d);
+							strcpy(p->name,d);
+							break;
+						}
+					case(3):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c1=d;
+							break;
+						}
+					case(4):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c2=d;
+							break;
+						}
+					case(5):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c3=d;
+							break;
+						}
+					case(6):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c4=d;
+							break;
+						}
+					case(7):
+						{
+							int d;
+							printf("请输入修改后的内容\n");
+							scanf("%d",&d);
+							p->c5=d;
+							break;
+						}
+					}
+					p->sum=p->c1+p->c2+p->c3+p->c4+p->c5;
+					p->ave=(p->sum)/5.0;
+					printf("%d %s %d %d %d %d %d %d %.2f\n",p->num,p->name,p->c1,p->c2,p->c3,p->c4,p->c5,p->sum,p->ave);
+				}
+			}
+			if(m==0)
+				printf("未找到您要修改的学生，请输入正确的学生信息\n");
+			break;
+		}
+	}
+	system("pause");
+	system("cls");
+};
+struct link *del(struct link *head)
+{
+	int x;
+	printf("请选择您要删除的方式：\n1.按学号删除\n2.按姓名删除\n");
+	scanf("%d",&x);
+	int m=0;
+	struct link *p,*c;
+	switch(x)
+	{
+	case(1):
+		{
+			int b;
+			printf("请输入您要删除的学号\n");
+			scanf("%d",&b);
+			for(p=head;p!=NULL;p=p->next)
+			{
+				if(p->num==b&&p==head)
+				{
+					m++;
+					head=p->next;
+					head->next=p->next->next;
+					break;
+				}
+				else
+				{
+					if(p->next->num==b)
+					{
+						m++;
+						c=p->next;
+						p->next=c->next;
+						free(c);
+						break;
+			
+					}
+				}
+			}
+			break;
+		}
+	case(2):
+		{
+			char a[10];
+			printf("请输入您要删除的姓名\n");
+			scanf("%s",a);
+			for(p=head;p!=NULL;p=p->next)
+			{
+				if((strcmp(p->name,a)==0)&&p==head)
+				{
+					head=p->next;
+					head->next=p->next->next;
+					m++;
+					break;
+				}
+				else
+				{
+					if(strcmp(p->next->name,a)==0)
+					{
+						c=p->next;
+						p->next=c->next;
+						free(c);
+						m++;
+						break;
+					}
+				}
+			}
+			break;
+		}
+	}
+	if(m==0)
+		printf("未找到您要删除的内容，请输入正确的删除内容\n");
+	else
+		printf("删除成功!\n");
+	system("pause");
+	system("cls");
+	return(head);
+};
+void print(struct link *head)
+{
+	struct link *p;
+	FILE *print=fopen("print.txt","w+");
+	for(p=head;p!=NULL;p=p->next)
+	{
+		fprintf(print,"%d %s %d %d %d %d %d %d %.2f\n",p->num,p->name,p->c1,p->c2,p->c3,p->c4,p->c5,p->sum,p->ave);
+	}
+	fclose(print);
+	printf("导入成功!\n");
+	system("pause");
+	system("cls");
+}
+int main()
+{
+	struct link *head;
+	head=duqu();
+	for(;;)
+	{
+		printf("****菜单****\n");
+		printf("1.录入数据\n2.显示数据\n3.查询数据\n4.修改数据\n5.删除数据\n6.将数据录入文件\n0.结束\n");
+		int a;
+		scanf("%d",&a);
+		if(a==0)
+		{
+			system("system");
+			system("cls");
+			printf("*再见*\n");
+			break;
+		}
+		switch(a)
+		{
+		case(1): 
+			{
+				if(head==NULL)
+					head=create();
+				else
+					input(head);
+				break;
+			}
+		case(2):
+			{
+				output(head);
+				break;
+			}
+		case(3):
+			{
+				for(;;)
+				{
+					find(head);
+					printf("若继续查询请输入1，否则输入0\n");
+					int xx;
+					scanf("%d",&xx);
+					system("pause");
+					system("cls");
+					if(xx==0)
+						break;
+				}
+				break;
+			}
+		case(4):
+			{
+				for(;;)
+				{
+					change(head);
+					printf("若继续修改请输入1，否则输入0\n");
+					int xx;
+					scanf("%d",&xx);
+					system("pause");
+					system("cls");
+					if(xx==0)
+						break;
+				}
+				break;
+			}
+		case(5):
+			{
+				for(;;)
+				{
+					head=del(head);
+					printf("若继续删除请输入1，否则输入0\n");
+					int xx;
+					scanf("%d",&xx);
+					system("pause");
+					system("cls");
+					if(xx==0)
+						break;
+				}
+				break;
+			}
+		case(6):
+			{
+				print(head);
+				break;
+			}
+		}
+	}
+	return 0;
+}
